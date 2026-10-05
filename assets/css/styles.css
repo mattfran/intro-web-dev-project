@@ -210,7 +210,7 @@ button:hover {
   font-weight: 600;
   cursor: pointer;
   margin-top: 0.5rem;
-transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .favorite-btn:hover {
@@ -229,7 +229,7 @@ transition: background-color 0.2s ease, color 0.2s ease;
 
 #favorites-summary {
   max-width: 960px;
- margin: 2rem auto;
+  margin: 2rem auto;
   padding: 1.5rem 1rem;
   background-color: #fff;
   border-radius: 6px;
