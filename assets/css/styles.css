@@ -200,6 +200,61 @@ button:hover {
   background-color: #a8442f;
 }
 
+.favorite-btn {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.favorite-btn.active {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.favorite-btn.active:hover {
+  background-color: #a8442f;
+}
+
+#favorites-summary {
+  max-width: 960px;
+ margin: 2rem auto;
+  padding: 1.5rem 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#favorites-summary h2 {
+  margin-bottom: 0.75rem;
+}
+
+#favorites-summary ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#favorites-summary li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+#favorites-summary li:last-child {
+  border-bottom: none;
+}
+
 @media (min-width: 768px) {
   h1 {
     font-size: 2.5rem;
