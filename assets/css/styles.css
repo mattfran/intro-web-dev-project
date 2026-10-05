@@ -255,6 +255,25 @@ button:hover {
   border-bottom: none;
 }
 
+.error-message {
+  color: #c0392b;
+  font-size: 0.85rem;
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-error {
+  border-color: #c0392b;
+}
+
+.success-message {
+  color: #27ae60;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
 @media (min-width: 768px) {
   h1 {
     font-size: 2.5rem;

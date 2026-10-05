@@ -80,3 +80,150 @@ function initFavorites() {
 
   renderFavorites();
 }
+
+// Contact form code
+
+// Load contact name/email from localStorage
+function loadContactData() {
+  try {
+    return {
+      name: localStorage.getItem('bakery-contact-name') || '',
+      email: localStorage.getItem('bakery-contact-email') || ''
+    };
+  } catch (e) {
+    return { name: '', email: '' };
+  }
+}
+
+// Save contact name/email to localStorage
+function saveContactData(name, email) {
+  try {
+    localStorage.setItem('bakery-contact-name', name);
+    localStorage.setItem('bakery-contact-email', email);
+  } catch (e) {
+    // noop; ignore storage errors
+  }
+}
+
+// Insert an error message directly after a field
+function showError(field, message) {
+  const span = document.createElement('span');
+  span.className = 'error-message';
+  span.textContent = message;
+  field.parentNode.insertBefore(span, field.nextSibling);
+  field.classList.add('input-error');
+}
+
+// Remove all error messages from the form
+function clearErrors(form) {
+  const errors = form.querySelectorAll('.error-message');
+  errors.forEach(function (el) { el.remove(); });
+  const fields = form.querySelectorAll('.input-error');
+  fields.forEach(function (el) { el.classList.remove('input-error'); });
+}
+
+// Validate the contact form and display errors
+function validateForm(form) {
+  clearErrors(form);
+  let isValid = true;
+
+  const name = form.elements['name'];
+  const email = form.elements['email'];
+  const pickupDate = form.elements['pickup-date'];
+  const requestType = form.elements['request-type'];
+
+  // Required checks
+  if (!name.value.trim()) {
+    showError(name, 'This field is required.');
+    isValid = false;
+  }
+
+  if (!email.value.trim()) {
+    showError(email, 'This field is required.');
+    isValid = false;
+  }
+
+  if (!pickupDate.value.trim()) {
+    showError(pickupDate, 'This field is required.');
+    isValid = false;
+  }
+
+  if (!requestType.value.trim()) {
+    showError(requestType, 'This field is required.');
+    isValid = false;
+  }
+
+  // Name minimum length
+  if (name.value.trim() && name.value.trim().length < 2) {
+    showError(name, 'Name must be at least 2 characters long.');
+    isValid = false;
+  }
+
+  // Email format
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email.value.trim() && !emailPattern.test(email.value.trim())) {
+    showError(email, 'Please enter a valid email address.');
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+// Initilize the contact form by prefillng stored data and attach submit handler
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  const stored = loadContactData();
+  if (stored.name) {
+    form.elements['name'].value = stored.name;
+  }
+  if (stored.email) {
+    form.elements['email'].value = stored.email;
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    if (validateForm(form)) {
+      const name = form.elements['name'].value.trim();
+      const email = form.elements['email'].value.trim();
+      saveContactData(name, email);
+
+      // Show success message
+      clearErrors(form);
+      const success = document.createElement('span');
+      success.className = 'success-message';
+      success.textContent = "We've recieved your message!";
+      form.insertBefore(success, form.firstChild);
+
+      form.reset();
+
+      // Prefill again, reset clears the fields
+      if (name) form.elements['name'].value = name;
+      if (email) form.elements['email'].value = email;
+
+      // Remove the success message after a few seconds
+      setTimeout(function () {
+        if (success.parentNode) success.remove();
+      }, 4000);
+    }
+  });
+}
+
+// Init depending on the page
+function init() {
+  if (document.querySelector('.products-grid')) {
+    initFavorites();
+  }
+  if (document.getElementById('contact-form')) {
+    initContactForm();
+  }
+}
+
+// Wait for the DOM to be ready before init
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
